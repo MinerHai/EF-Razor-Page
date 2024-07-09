@@ -1,0 +1,23 @@
+﻿@page
+@using razor_ef.Pages
+@model IndexModel
+@using DBWeb;
+@{
+    ViewData["Title"] = "Home page";
+    var ports = ViewData["ports"] as List<Article>;
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<ol>
+    @foreach (var port in ports)
+    {
+        <li>
+            @port.Title
+        </li>
+    }
+
+</ol>
