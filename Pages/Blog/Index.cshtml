@@ -1,0 +1,61 @@
+@page
+@model razor_ef.Pages_Blog.IndexModel
+
+@{
+    ViewData["Title"] = "Trang Blog";
+    int i = 0;
+}
+
+@{
+    var pagingmodel = new Miner.Helper.PagingModel(){
+        currentPage = Model.currentPage,
+        countPages = Model.countPages,
+        generateUrl = (int? p) => Url.Page("/Blog/Index", new{p = p})
+
+    };
+}
+
+<h1 class="text-danger">My Blog</h1>
+<form class="mb-4" method="get" asp-page="./Index">
+    <label>Tìm Kiếm</label>
+    <input name="SearchString" value="">
+    <button type="submit" class="btn btn-primary">Tìm</button>
+</form>
+<p>
+    <a asp-page="Create" class="btn btn-primary">Tạo bài viêt mới</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>
+                @Html.DisplayNameFor(model => model.Article[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Article[0].Created)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Article) {
+        <tr>
+            <td> @(++i)</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Created)
+            </td>
+           
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Chỉnh sửa</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Chi tiết</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Xóa</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<partial name="_Paging" model="@pagingmodel"></partial>
